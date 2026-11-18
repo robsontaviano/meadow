@@ -1,0 +1,98 @@
+<?php
+
+namespace Meadow\Traits;
+
+use Blade;
+
+trait Toast
+{
+    protected function toast(
+        string $type,
+        string $title,
+        ?string $description = null,
+        ?string $position = null,
+        string $icon = 'o-information-circle',
+        string $css = 'alert-info',
+        int $timeout = 3000,
+        ?string $redirectTo = null,
+        bool $noProgress = false,
+        ?string $progressClass = null,
+    ) {
+        $toast = [
+            'type' => $type,
+            'title' => $title,
+            'description' => $description,
+            'position' => $position,
+            'icon' => Blade::render('<x-meadow-icon class="w-7 h-7" :name="$iconName" />', ['iconName' => preg_match('/^[A-Za-z0-9._-]+$/', $icon) ? $icon : 'o-information-circle']),
+            'css' => $css,
+            'timeout' => $timeout,
+            'noProgress' => $noProgress,
+            'progressClass' => $progressClass,
+        ];
+
+        $this->js('toast('.json_encode(['toast' => $toast]).')');
+
+        session()->flash('meadow.toast.title', $title);
+        session()->flash('meadow.toast.description', $description);
+
+        if ($redirectTo) {
+            return $this->redirect($redirectTo, navigate: true);
+        }
+    }
+
+    protected function success(
+        string $title,
+        ?string $description = null,
+        ?string $position = null,
+        string $icon = 'o-check-circle',
+        string $css = 'alert-success',
+        int $timeout = 3000,
+        ?string $redirectTo = null,
+        bool $noProgress = false,
+        ?string $progressClass = null,
+    ) {
+        return $this->toast('success', $title, $description, $position, $icon, $css, $timeout, $redirectTo, $noProgress, $progressClass);
+    }
+
+    protected function warning(
+        string $title,
+        ?string $description = null,
+        ?string $position = null,
+        string $icon = 'o-exclamation-triangle',
+        string $css = 'alert-warning',
+        int $timeout = 3000,
+        ?string $redirectTo = null,
+        bool $noProgress = false,
+        ?string $progressClass = null,
+    ) {
+        return $this->toast('warning', $title, $description, $position, $icon, $css, $timeout, $redirectTo, $noProgress, $progressClass);
+    }
+
+    protected function error(
+        string $title,
+        ?string $description = null,
+        ?string $position = null,
+        string $icon = 'o-x-circle',
+        string $css = 'alert-error',
+        int $timeout = 3000,
+        ?string $redirectTo = null,
+        bool $noProgress = false,
+        ?string $progressClass = null,
+    ) {
+        return $this->toast('error', $title, $description, $position, $icon, $css, $timeout, $redirectTo, $noProgress, $progressClass);
+    }
+
+    protected function info(
+        string $title,
+        ?string $description = null,
+        ?string $position = null,
+        string $icon = 'o-information-circle',
+        string $css = 'alert-info',
+        int $timeout = 3000,
+        ?string $redirectTo = null,
+        bool $noProgress = false,
+        ?string $progressClass = null,
+    ) {
+        return $this->toast('info', $title, $description, $position, $icon, $css, $timeout, $redirectTo, $noProgress, $progressClass);
+    }
+}
