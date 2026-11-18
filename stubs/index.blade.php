@@ -47,7 +47,7 @@ new class extends Component {
     public function users(): Collection
     {
         return collect([
-            ['id' => 1, 'name' => 'Mary', 'email' => 'meadow@meadow-ui.com', 'age' => 23],
+            ['id' => 1, 'name' => 'Meadow', 'email' => 'meadow@meadow-ui.com', 'age' => 23],
             ['id' => 2, 'name' => 'Giovanna', 'email' => 'giovanna@meadow-ui.com', 'age' => 7],
             ['id' => 3, 'name' => 'Marina', 'email' => 'marina@meadow-ui.com', 'age' => 5],
         ])
